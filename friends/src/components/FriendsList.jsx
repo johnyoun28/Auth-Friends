@@ -16,11 +16,12 @@ const FriendsList = () => {
         e.preventDefault()
         axiosWithAuth()
         .post('/friends', formValues)
-        .then(res)
+        .then(res => {
+            console.log(res.data)
+        })
         .catch(err => {
             console.log(err)
         })
-        setFriends(res.data)
     }
 
     useEffect(() => {
@@ -33,6 +34,7 @@ const FriendsList = () => {
             console.log(err)
         })
     }, [])
+
     
 
     const changeHandler = e => {
@@ -44,11 +46,35 @@ const FriendsList = () => {
             <h1>Friends List</h1>
             {
                 friends.map(friend => (
-                    <h3 key={friend.id}>{friend.name}</h3>
+                   <div>
+                        <h3 key={friend.id}>{friend.name}</h3>
+                    <p>{friend.age}</p>
+                    <p>{friend.email}</p>
+                   </div>
                 ))
             }
+            <h2> Add New Friend</h2>
+            <form onSubmit={submitHandler}>
+                <label> Name
+                    <input type='text' name="name" value={formValues.name} onChange={changeHandler}>
+                    </input>
+                </label>
+
+                <label> Age
+                    <input type='text' name="age" value={formValues.age} onChange={changeHandler}>
+                    </input>
+                </label>
+
+                <label> Email
+                    <input type='text' name="email" value={formValues.email} onChange={changeHandler}>
+                    </input>
+                </label>
+
+                <button> Add Friend </button>
+            </form>
         </div>
     )
-}
+        }
+
 
 export default FriendsList

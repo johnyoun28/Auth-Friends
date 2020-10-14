@@ -18,12 +18,12 @@ const Login = () => {
     const submitHandler = e => {
         e.preventDefault()
         axiosWithAuth()
-        .post("/api/login", formValues).then(res => {
+        .post("/login", formValues).then(res => {
             localStorage.setItem("token", res.data.payload)
-            history.push('/protected')
-            .catch(err => {
-                console.log(err)
-            })
+            history.push('/friendslist')
+            // .catch(err => {
+            //     console.log(err)
+            // })
         })
     }
 
@@ -32,10 +32,10 @@ const Login = () => {
             <form onSubmit={submitHandler}>
                 <label> Name
                     <input
-                     name='name'
+                     name='username'
                       value={formValues.username}
                        onChange={changeHandler}
-                        type="input">
+                        type="text">
                     </input>
 
                 </label>
@@ -44,7 +44,7 @@ const Login = () => {
                      name='password'
                       value={formValues.password}
                        onChange={changeHandler}
-                        type="input">
+                        type="text">
                     </input>
 
                 </label>
