@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { axiosWithAuth } from '../utils/axiosWithAuth'
+import { useHistory } from 'react-router-dom'
 
 const initialFormValues = {
     username: "",
@@ -7,6 +9,7 @@ const initialFormValues = {
 
 const Login = () => {
     const [ formValues, setFormValues ] = useState(initialFormValues)
+    const history = useHistory()
 
     const changeHandler = (e) => {
         setFormValues({...formValues, [e.target.name]: e.target.value })
@@ -14,6 +17,14 @@ const Login = () => {
 
     const submitHandler = e => {
         e.preventDefault()
+        axiosWithAuth()
+        .post("/login", formValues).then(res => {
+            localStorage.setItem("token", res.data.payload)
+            history.push('/friendslist')
+            // .catch(err => {
+            //     console.log(err)
+            // })
+        })
     }
 
     return (
@@ -21,10 +32,10 @@ const Login = () => {
             <form onSubmit={submitHandler}>
                 <label> Name
                     <input
-                     name='name'
+                     name='username'
                       value={formValues.username}
                        onChange={changeHandler}
-                        type="input">
+                        type="text">
                     </input>
 
                 </label>
@@ -33,7 +44,7 @@ const Login = () => {
                      name='password'
                       value={formValues.password}
                        onChange={changeHandler}
-                        type="input">
+                        type="text">
                     </input>
 
                 </label>
